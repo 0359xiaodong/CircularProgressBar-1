@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">CircularProgressBar-demo</string>
+  <string name="buttonGo">Go</string>
+  <string name="buttonGoNoAnim">Go (No anim)</string>
+  <string name="buttonReset">Reset</string>
+  <string name="buttonResetNoAnim">Reset (No anim)</string>
+  <string name="buttonCountdown">Countdown</string>
+</resources>

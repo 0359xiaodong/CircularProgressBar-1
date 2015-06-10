@@ -1,0 +1,25 @@
+apply plugin: 'com.android.library'
+apply plugin: 'bintray-release'
+
+android {
+  compileSdkVersion 22
+  buildToolsVersion "22.0.1"
+
+  defaultConfig {
+    minSdkVersion 15
+    targetSdkVersion 22
+    versionCode 100
+    versionName "1.0.0"
+  }
+}
+
+
+publish {
+  userOrg = 'hrules6872'
+  groupId = 'com.hrules'
+  artifactId = 'circularprogressbar'
+  version = '1.0.0'
+  description = 'Circular Progress Bar'
+  website = 'https://github.com/hrules6872/CircularProgressBar'
+  repository = "https://github.com/hrules6872/CircularProgressBar.git"
+}
