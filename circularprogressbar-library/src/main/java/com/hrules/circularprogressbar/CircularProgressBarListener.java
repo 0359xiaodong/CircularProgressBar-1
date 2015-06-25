@@ -4,6 +4,10 @@ public interface CircularProgressBarListener {
 
     void onClick();
 
+    void onStartSpinning();
+
+    void onStopSpinning();
+
     void onFinish();
 
     void onValueChanged(float value);

@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <declare-styleable name="CircularProgressBar">
-    <attr name="cpb_maxValue"
-        format="float"/>
-    <attr name="cpb_value"
-        format="float"/>
-    <attr name="cpb_speed"
-        format="float"/>
+    <declare-styleable name="CircularProgressBar">
+        <attr name="cpb_maxValue" format="float" />
+        <attr name="cpb_value" format="float" />
+        <attr name="cpb_speed" format="float" />
 
-    <attr name="cpb_primaryColor"
-        format="color"/>
-    <attr name="cpb_accentColor"
-        format="color"/>
+        <attr name="cpb_primaryColor" format="color" />
+        <attr name="cpb_accentColor" format="color" />
 
-    <attr name="cpb_thickness"
-        format="dimension"/>
-    <attr name="cpb_radius"
-        format="dimension"/>
+        <attr name="cpb_thickness" format="dimension" />
+        <attr name="cpb_radius" format="dimension" />
+        <attr name="cpb_filled" format="boolean" />
 
-  </declare-styleable>
+        <attr name="cpb_running" format="boolean" />
+    </declare-styleable>
 </resources>

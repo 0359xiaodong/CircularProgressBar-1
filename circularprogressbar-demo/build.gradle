@@ -8,8 +8,8 @@ android {
     applicationId "hrules.com.circularprogressbar"
     minSdkVersion 15
     targetSdkVersion 22
-    versionCode 100
-    versionName "1.0.0"
+    versionCode 110
+    versionName "1.1.0"
   }
 }
 

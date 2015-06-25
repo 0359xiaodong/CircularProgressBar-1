@@ -11,9 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 
-public class CircularProgressBar extends View {
-    private static final float DEFAULT_MAX_VALUE = 360f;
-    private static final float DEFAULT_VALUE = 0;
+public class CircularProgressIndeterminateBar extends View {
     private static final float DEFAULT_SPEED = 5f;
 
     private static final float DEFAULT_THICKNESS_DP = 4;
@@ -23,12 +21,11 @@ public class CircularProgressBar extends View {
     private static final int DEFAULT_PRIMARY_COLOR = Color.LTGRAY;
     private static final int DEFAULT_ACCENT_COLOR = Color.argb(255, 33, 150, 243);
 
-    private static final boolean DEFAULT_ANIM_STATE = true;
+    private static final boolean DEFAULT_RUNNING_STATE = false;
 
-    private float maxValue;
+    private boolean spinning;
+    private boolean stopping;
     private float currentValue;
-    private float targetValue;
-    private float initValue;
     private float speed;
 
     private float thickness;
@@ -44,15 +41,18 @@ public class CircularProgressBar extends View {
 
     private CircularProgressBarListener listener;
 
-    public CircularProgressBar(Context context) {
+    private boolean growing = true;
+    private float length = 0;
+
+    public CircularProgressIndeterminateBar(Context context) {
         this(context, null);
     }
 
-    public CircularProgressBar(Context context, AttributeSet attrs) {
+    public CircularProgressIndeterminateBar(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CircularProgressBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CircularProgressIndeterminateBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
@@ -61,8 +61,6 @@ public class CircularProgressBar extends View {
         DisplayMetrics metrics = getContext().getResources().getDisplayMetrics();
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CircularProgressBar);
 
-        maxValue = typedArray.getFloat(R.styleable.CircularProgressBar_cpb_maxValue, DEFAULT_MAX_VALUE);
-        currentValue = typedArray.getFloat(R.styleable.CircularProgressBar_cpb_value, DEFAULT_VALUE);
         speed = typedArray.getFloat(R.styleable.CircularProgressBar_cpb_speed, DEFAULT_SPEED);
 
         primaryColor = typedArray.getColor(R.styleable.CircularProgressBar_cpb_primaryColor, DEFAULT_PRIMARY_COLOR);
@@ -74,13 +72,15 @@ public class CircularProgressBar extends View {
         radius = (int) typedArray.getDimension(R.styleable.CircularProgressBar_cpb_radius, radius);
         filled = typedArray.getBoolean(R.styleable.CircularProgressBar_cpb_filled, DEFAULT_FILLED_STATE);
 
-        typedArray.recycle();
-
         primaryPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         accentPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         updatePaint();
 
-        setInitValue(currentValue);
+        currentValue = 0;
+        spinning = typedArray.getBoolean(R.styleable.CircularProgressBar_cpb_running, DEFAULT_RUNNING_STATE);
+        stopping = false;
+
+        typedArray.recycle();
 
         setOnClickListener(new OnClickListener() {
             @Override
@@ -88,14 +88,6 @@ public class CircularProgressBar extends View {
                 notifyOnClick();
             }
         });
-    }
-
-    private void setInitValue(float currentValue) {
-        targetValue = currentValue;
-        if (targetValue > maxValue) {
-            targetValue = maxValue;
-        }
-        this.initValue = currentValue;
     }
 
     private void updatePaint() {
@@ -118,28 +110,39 @@ public class CircularProgressBar extends View {
 
         canvas.drawArc(bounds, 360, 360, filled, primaryPaint);
 
-        if (targetValue > currentValue) {
-            currentValue = currentValue + (1 * speed);
-        } else if (targetValue < currentValue) {
-            currentValue = currentValue - (1 * speed);
-        }
+        if (spinning) {
+            currentValue += speed;
 
-        if (isInEditMode()) {
-            currentValue = 90;
-        }
-        canvas.drawArc(bounds, -90, 360 * currentValue / maxValue, filled, accentPaint);
+            float from = currentValue - 90;
+            if (growing) {
+                length += speed;
+                growing = length < 230f;
+            } else {
+                length = length - speed;
+                currentValue += speed;
 
-        if (initValue != currentValue) {
-            notifyOnValueChanged(currentValue);
-            notifyOnPercentValueChanged((float) Math.round((currentValue / maxValue * 100)) / 100);
-
-            if (currentValue == targetValue || currentValue < 0) {
-                notifyOnFinish();
+                if (stopping) {
+                    if (length <= speed) {
+                        stopping = false;
+                        spinning = false;
+                        notifyOnStop();
+                    }
+                } else {
+                    growing = length < 15f;
+                }
             }
 
-            if (currentValue != targetValue || currentValue < 0) {
-                invalidate();
+            if (currentValue > 360) {
+                currentValue -= 360f;
             }
+
+            if (isInEditMode()) {
+                from = -90;
+                length = 90;
+            }
+            canvas.drawArc(bounds, from, length, filled, accentPaint);
+
+            invalidate();
         }
     }
 
@@ -185,69 +188,51 @@ public class CircularProgressBar extends View {
         }
     }
 
-    private void notifyOnFinish() {
+    private void notifyOnStop() {
         if (listener != null) {
-            listener.onFinish();
+            listener.onStopSpinning();
         }
     }
 
-    private void notifyOnValueChanged(float currentValue) {
+    private void notifyOnStart() {
         if (listener != null) {
-            listener.onValueChanged(currentValue);
+            listener.onStartSpinning();
         }
     }
 
-    private void notifyOnPercentValueChanged(float percent) {
-        if (listener != null) {
-            listener.onPercentValueChanged(percent);
-        }
+    public void start() {
+        growing = true;
+        currentValue = 0f;
+        length = 0;
+
+        stopping = false;
+        spinning = true;
+        invalidate();
+
+        notifyOnStart();
     }
 
-    public float getMaxValue() {
-        return maxValue;
-    }
+    public void stop() {
+        growing = false;
 
-    public void setMaxValue(float maxValue) {
-        this.maxValue = maxValue;
-        if (currentValue > maxValue) {
-            currentValue = maxValue;
-        }
-
-        initValue = -1;
+        stopping = true;
         invalidate();
     }
 
-    public float getValue() {
-        return currentValue;
+    public boolean isSpinning() {
+        return spinning;
     }
 
-    public void setValue(float value) {
-        setValue(value, DEFAULT_ANIM_STATE);
-    }
-
-    public void setValue(float value, boolean anim) {
-        targetValue = value;
-        if (targetValue > maxValue) {
-            targetValue = maxValue;
+    public void setSpinning(boolean spinning) {
+        if (spinning) {
+            start();
+        } else {
+            stop();
         }
-        if (!anim) {
-            currentValue = targetValue;
-        }
-
-        initValue = -1;
-        invalidate();
     }
 
-    public void setPercentValue(float percent) {
-        setPercentValue(percent, DEFAULT_ANIM_STATE);
-    }
-
-    public void setPercentValue(float percent, boolean anim) {
-        setValue(maxValue * percent, anim);
-    }
-
-    public boolean isRunning() {
-        return currentValue != targetValue;
+    public boolean isStopping() {
+        return stopping;
     }
 
     public float getThickness() {
@@ -277,20 +262,6 @@ public class CircularProgressBar extends View {
     public void setAccentColor(int accentColor) {
         this.accentColor = accentColor;
         updatePaint();
-        invalidate();
-    }
-
-    public void reset() {
-        reset(DEFAULT_ANIM_STATE);
-    }
-
-    public void reset(boolean anim) {
-        targetValue = 0;
-        if (!anim) {
-            currentValue = 0;
-        }
-
-        initValue = -1;
         invalidate();
     }
 

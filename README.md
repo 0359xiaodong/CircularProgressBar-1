@@ -5,7 +5,7 @@ CircularProgressBar
 Add this dependency to your build.gradle file:
 ```java
 dependencies {
-    compile 'com.hrules:circularprogressbar:1.0.0'
+    compile 'com.hrules:circularprogressbar:2.0.0'
 }
 ```
 

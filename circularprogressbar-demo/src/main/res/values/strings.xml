@@ -1,8 +1,11 @@
 <resources>
   <string name="app_name">CircularProgressBar-demo</string>
-  <string name="buttonGo">Go</string>
-  <string name="buttonGoNoAnim">Go (No anim)</string>
-  <string name="buttonReset">Reset</string>
-  <string name="buttonResetNoAnim">Reset (No anim)</string>
-  <string name="buttonCountdown">Countdown</string>
+  <string name="buttonDeterminateGo">Go (75%)</string>
+  <string name="buttonDeterminateGoNoAnim">Go (75% - No anim)</string>
+  <string name="buttonDeterminateReset">Reset</string>
+  <string name="buttonDeterminateResetNoAnim">Reset (No anim)</string>
+  <string name="buttonDeterminateCountdown">Countdown</string>
+  <string name="buttonIndeterminateStart">Start</string>
+  <string name="buttonIndeterminateStop">Stop</string>
+  <string name="click">Try to click on a CircularProgressBar</string>
 </resources>

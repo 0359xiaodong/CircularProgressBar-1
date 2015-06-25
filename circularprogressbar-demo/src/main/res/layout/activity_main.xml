@@ -1,60 +1,84 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/default_padding"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
 
-  <com.hrules.circularprogressbar.CircularProgressBar
-      android:id="@+id/circularProgressBar"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:layout_gravity="center_horizontal"
-      />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
 
-  <Button
-      android:id="@+id/buttonGo"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="@string/buttonGo"
-      android:layout_marginTop="@dimen/default_margin"
-      />
+        <com.hrules.circularprogressbar.CircularProgressBar
+            android:id="@+id/circularProgressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal" />
 
-  <Button
-      android:id="@+id/buttonGoNoAnim"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="@string/buttonGoNoAnim"
-      android:layout_marginTop="@dimen/default_margin"
-      />
+        <Button
+            android:id="@+id/buttonDeterminateGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonDeterminateGo" />
 
-  <Button
-      android:id="@+id/buttonReset"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="@string/buttonReset"
-      android:layout_marginTop="@dimen/default_margin"
-      />
+        <Button
+            android:id="@+id/buttonDeterminateGoNoAnim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonDeterminateGoNoAnim" />
 
-  <Button
-      android:id="@+id/buttonResetNoAnim"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="@string/buttonResetNoAnim"
-      android:layout_marginTop="@dimen/default_margin"
-      />
+        <Button
+            android:id="@+id/buttonDeterminateReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonDeterminateReset" />
 
-  <Button
-      android:id="@+id/buttonCountdown"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center_horizontal"
-      android:text="@string/buttonCountdown"
-      android:layout_marginTop="@dimen/default_margin"
-      />
+        <Button
+            android:id="@+id/buttonDeterminateResetNoAnim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonDeterminateResetNoAnim" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/buttonDeterminateCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonDeterminateCountdown" />
+
+        <com.hrules.circularprogressbar.CircularProgressIndeterminateBar
+            android:id="@+id/circularProgressIndeterminateBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            app:cpb_running="true"
+            app:cpb_primaryColor="@android:color/transparent"/>
+
+        <Button
+            android:id="@+id/buttonIndeterminateStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonIndeterminateStart" />
+
+        <Button
+            android:id="@+id/buttonIndeterminateStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/buttonIndeterminateStop" />
+    </LinearLayout>
+</ScrollView>
