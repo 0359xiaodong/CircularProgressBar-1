@@ -1,5 +1,6 @@
 CircularProgressBar
 ===== 
+![image](demo.gif)
 
 ##Importing to your project
 Add this dependency to your build.gradle file:
@@ -7,6 +8,26 @@ Add this dependency to your build.gradle file:
 dependencies {
     compile 'com.hrules:circularprogressbar:2.0.0'
 }
+```
+##Usage
+CircularProgressBar:
+```java
+CircularProgressBar circularProgressBar = (CircularProgressBar) findViewById(R.id.circularProgressBar);
+circularProgressBar.setPercentValue(.75f, true); // 75% with animation
+
+// ...
+
+circularProgressBar.reset(false); // no animation
+```
+
+CircularProgressIndeterminateBar:
+```java
+CircularProgressIndeterminateBar circularProgressIndeterminateBar = (CircularProgressIndeterminateBar) findViewById(R.id.circularProgressIndeterminateBar);
+circularProgressIndeterminateBar.start(); 
+
+// ...
+
+circularProgressIndeterminateBar.stop(); 
 ```
 
 Developed by
