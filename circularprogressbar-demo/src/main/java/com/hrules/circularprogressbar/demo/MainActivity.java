@@ -1,10 +1,11 @@
-package hrules.com.circularprogressbar;
+package com.hrules.circularprogressbar.demo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
 import com.hrules.circularprogressbar.CircularProgressBar;
 import com.hrules.circularprogressbar.CircularProgressBarListener;
 import com.hrules.circularprogressbar.CircularProgressIndeterminateBar;
